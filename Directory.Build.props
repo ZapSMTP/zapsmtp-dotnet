@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+    <Version>0.1.0</Version>
+    <Authors>ZapSMTP</Authors>
+    <Company>ZapSMTP</Company>
+    <Copyright>Copyright (c) ZapSMTP</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://zapsmtp.com/docs/sdks/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zapsmtp/zapsmtp-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>email;smtp;transactional email;zapsmtp;api;sdk;resend</PackageTags>
+  </PropertyGroup>
+</Project>
