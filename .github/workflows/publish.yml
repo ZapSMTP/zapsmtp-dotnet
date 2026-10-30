@@ -1,0 +1,46 @@
+# Publishes ZapSMTP and ZapSMTP.Extensions.DependencyInjection to NuGet when
+# a version tag (v0.1.0, v0.1.0-beta.1) is pushed. No API key: nuget.org
+# trusts this workflow (trusted publishing policy for owner ZapSMTP,
+# repository zapsmtp-dotnet, workflow publish.yml, environment nuget).
+#
+# The full test suite needs the shared conformance cases and spec of the
+# ZapSMTP SDK monorepo and runs there before a release is exported here; this
+# workflow builds the packages and checks they install and load.
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: nuget
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Tag matches the package version
+        run: |
+          v=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props)
+          [ "${GITHUB_REF_NAME}" = "v$v" ] || { echo "tag ${GITHUB_REF_NAME} != v$v"; exit 1; }
+          echo "VERSION=$v" >> "$GITHUB_ENV"
+      - run: dotnet pack src/ZapSMTP/ZapSMTP.csproj -c Release -o out
+      - run: dotnet pack src/ZapSMTP.Extensions.DependencyInjection/ZapSMTP.Extensions.DependencyInjection.csproj -c Release -o out
+      - name: The packages install and load
+        run: |
+          mkdir /tmp/smoke && cd /tmp/smoke
+          dotnet new console --framework net8.0 >/dev/null
+          dotnet nuget add source "$GITHUB_WORKSPACE/out" -n local
+          dotnet add package ZapSMTP --version "$VERSION"
+          dotnet add package ZapSMTP.Extensions.DependencyInjection --version "$VERSION"
+          echo 'System.Console.WriteLine(typeof(ZapSMTP.ZapSMTPClient).Assembly.GetName().Version);' > Program.cs
+          dotnet run
+      - uses: NuGet/login@v1.2.0
+        id: login
+        with:
+          user: ZapSMTP
+      - run: dotnet nuget push "out/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
