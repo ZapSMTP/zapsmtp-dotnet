@@ -35,6 +35,10 @@ var sent = await zap.Emails.SendAsync(new SendEmailParams
 Console.WriteLine(sent.Id);
 ```
 
+Times such as `ScheduledAt` are strings, as the API takes them: RFC 3339 (`DateTimeOffset.UtcNow.AddHours(1).ToString("O")`)
+or a phrase such as `"in 30 minutes"`. Fields with fixed values have constants: `EmailStream.Broadcast`,
+`MetricsGranularity.Day`, `KeyPermission.SendingAccess`...
+
 Make one client and keep it (register it as a singleton, or use [dependency injection](#dependency-injection)):
 it is thread-safe and reuses its connections.
 

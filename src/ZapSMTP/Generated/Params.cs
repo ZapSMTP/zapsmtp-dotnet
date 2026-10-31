@@ -1105,6 +1105,7 @@ namespace ZapSMTP
         /// <summary>
         /// hour (ranges up to 31 days) or day for series. Default: hour up to 48 hours, else day.
         /// </summary>
+        /// <remarks>See <see cref="MetricsGranularity"/> for the values.</remarks>
         [JsonPropertyName("granularity")]
         public string? Granularity { get; init; }
 

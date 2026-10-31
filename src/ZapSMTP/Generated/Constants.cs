@@ -131,6 +131,22 @@ namespace ZapSMTP
     }
 
     /// <summary>
+    /// Values the API takes for metrics granularity.
+    /// </summary>
+    public static class MetricsGranularity
+    {
+        /// <summary>
+        /// The value "hour".
+        /// </summary>
+        public const string Hour = "hour";
+
+        /// <summary>
+        /// The value "day".
+        /// </summary>
+        public const string Day = "day";
+    }
+
+    /// <summary>
     /// Values the API takes for received email status.
     /// </summary>
     public static class ReceivedEmailStatus
