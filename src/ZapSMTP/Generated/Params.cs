@@ -302,7 +302,7 @@ namespace ZapSMTP
     public sealed partial class EmailsListParams : ZapParams
     {
         /// <summary>
-        /// 1-100; out-of-range values fall back to 20. Default: 20.
+        /// 1-100. Limits: 422 invalid_parameter otherwise. Default: 20.
         /// </summary>
         [JsonPropertyName("limit")]
         public int? Limit { get; init; }
@@ -323,7 +323,8 @@ namespace ZapSMTP
 
         /// <summary>
         /// Filter by latest status. status=scheduled lists pending scheduled sends instead (different item shape,
-        /// ordered by scheduled time ascending, has_more always false, other filters/cursors ignored).
+        /// ordered by scheduled time ascending, has_more always false, other filters/cursors ignored, though they
+        /// must be valid).
         /// </summary>
         /// <remarks>See <see cref="EmailStatus"/> for the values.</remarks>
         [JsonPropertyName("status")]
@@ -336,8 +337,8 @@ namespace ZapSMTP
         public string? Q { get; init; }
 
         /// <summary>
-        /// Look-back window in days, 1-90 (other values ignored). Always capped by the plan's log retention.
-        /// Default: 30.
+        /// Look-back window in days, 1-90. Always capped by the plan's log retention. Limits: 422
+        /// invalid_parameter otherwise. Default: 30.
         /// </summary>
         [JsonPropertyName("days")]
         public int? Days { get; init; }
@@ -350,7 +351,7 @@ namespace ZapSMTP
         public string? Stream { get; init; }
 
         /// <summary>
-        /// Filter live or test-mode (sandbox) traffic; other values ignored.
+        /// Filter live or test-mode (sandbox) traffic. Limits: 422 invalid_parameter for other values.
         /// </summary>
         /// <remarks>See <see cref="KeyMode"/> for the values.</remarks>
         [JsonPropertyName("mode")]
@@ -444,7 +445,7 @@ namespace ZapSMTP
     public sealed partial class EmailsReceivingListParams : ZapParams
     {
         /// <summary>
-        /// 1-100; out-of-range falls back to 20. Default: 20.
+        /// 1-100. Limits: 422 invalid_parameter otherwise. Default: 20.
         /// </summary>
         [JsonPropertyName("limit")]
         public int? Limit { get; init; }
@@ -538,7 +539,7 @@ namespace ZapSMTP
     public sealed partial class EmailsReceivingAttachmentsListParams : ZapParams
     {
         /// <summary>
-        /// 1-100; when omitted or out of range all attachments are returned.
+        /// 1-100; when omitted all attachments are returned. Limits: 422 invalid_parameter otherwise.
         /// </summary>
         [JsonPropertyName("limit")]
         public int? Limit { get; init; }
@@ -732,7 +733,7 @@ namespace ZapSMTP
     public sealed partial class ThreadsListParams : ZapParams
     {
         /// <summary>
-        /// 1-100; out-of-range falls back to 20. Default: 20.
+        /// 1-100. Limits: 422 invalid_parameter otherwise. Default: 20.
         /// </summary>
         [JsonPropertyName("limit")]
         public int? Limit { get; init; }
@@ -752,13 +753,15 @@ namespace ZapSMTP
         public string? BeforeId { get; init; }
 
         /// <summary>
-        /// true: only conversations whose last human email came in.
+        /// true: only conversations whose last human email came in. Limits: 422 invalid_parameter unless true or
+        /// false.
         /// </summary>
         [JsonPropertyName("awaiting_reply")]
         public bool? AwaitingReply { get; init; }
 
         /// <summary>
-        /// true: only conversations with an email received after their read mark.
+        /// true: only conversations with an email received after their read mark. Limits: 422 invalid_parameter
+        /// unless true or false.
         /// </summary>
         [JsonPropertyName("unread")]
         public bool? Unread { get; init; }
@@ -1027,7 +1030,7 @@ namespace ZapSMTP
     public sealed partial class StatsGetParams : ZapParams
     {
         /// <summary>
-        /// 1-720; out-of-range falls back to 24. Default: 24.
+        /// 1-720. Limits: 422 invalid_parameter otherwise. Default: 24.
         /// </summary>
         [JsonPropertyName("hours")]
         public int? Hours { get; init; }
@@ -1047,8 +1050,8 @@ namespace ZapSMTP
     public sealed partial class StatsTimeseriesParams : ZapParams
     {
         /// <summary>
-        /// 1-720; out-of-range falls back to 24. Bucket size: &lt;=1h → 60 s, &lt;=6h → 300 s, &lt;=24h → 1800 s,
-        /// &lt;=168h → 10800 s, otherwise 43200 s. Default: 24.
+        /// 1-720 (422 invalid_parameter otherwise). Bucket size: &lt;=1h → 60 s, &lt;=6h → 300 s, &lt;=24h → 1800
+        /// s, &lt;=168h → 10800 s, otherwise 43200 s. Default: 24.
         /// </summary>
         [JsonPropertyName("hours")]
         public int? Hours { get; init; }
@@ -1068,7 +1071,7 @@ namespace ZapSMTP
     public sealed partial class StatsBreakdownParams : ZapParams
     {
         /// <summary>
-        /// 1-720; out-of-range falls back to 24. Default: 24.
+        /// 1-720. Limits: 422 invalid_parameter otherwise. Default: 24.
         /// </summary>
         [JsonPropertyName("hours")]
         public int? Hours { get; init; }
@@ -1220,7 +1223,7 @@ namespace ZapSMTP
     public sealed partial class DomainsGetDmarcParams : ZapParams
     {
         /// <summary>
-        /// 1-180; out-of-range falls back to 30. Default: 30.
+        /// 1-180. Limits: 422 invalid_parameter otherwise. Default: 30.
         /// </summary>
         [JsonPropertyName("days")]
         public int? Days { get; init; }
@@ -1651,7 +1654,7 @@ namespace ZapSMTP
     public sealed partial class SuppressionsListParams : ZapParams
     {
         /// <summary>
-        /// 1-1000; out-of-range falls back to 100. Default: 100.
+        /// 1-1000. Limits: 422 invalid_parameter otherwise. Default: 100.
         /// </summary>
         [JsonPropertyName("limit")]
         public int? Limit { get; init; }
@@ -1706,7 +1709,7 @@ namespace ZapSMTP
     public sealed partial class LogsListParams : ZapParams
     {
         /// <summary>
-        /// 1–100. Default: 20.
+        /// 1–100. Limits: 422 invalid_parameter otherwise. Default: 20.
         /// </summary>
         [JsonPropertyName("limit")]
         public int? Limit { get; init; }

@@ -3116,6 +3116,12 @@ namespace ZapSMTP
     public sealed partial class SendBatchResponseData : ZapObject
     {
         /// <summary>
+        /// The failed_recipients field, when the API sends it.
+        /// </summary>
+        [JsonPropertyName("failed_recipients")]
+        public IReadOnlyList<string>? FailedRecipients { get; init; }
+
+        /// <summary>
         /// The id field.
         /// </summary>
         [JsonPropertyName("id")]
@@ -4024,7 +4030,7 @@ namespace ZapSMTP
         /// The variables field, when the API sends it.
         /// </summary>
         [JsonPropertyName("variables")]
-        public IReadOnlyDictionary<string, string>? Variables { get; init; }
+        public IReadOnlyDictionary<string, JsonElement>? Variables { get; init; }
     }
 
     /// <summary>

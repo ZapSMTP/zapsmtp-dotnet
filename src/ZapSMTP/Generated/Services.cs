@@ -185,7 +185,10 @@ namespace ZapSMTP
         /// status notification), out_of_office, auto_reply, auto_generated (notifications, null sender) or bulk
         /// (mailing lists). Detected from Auto-Submitted, X-Autoreply, Precedence, List-Id, multipart/report and
         /// well-known subjects; reason names the evidence. tls: the TLS version the sending server used (e.g.
-        /// TLSv1_3); empty when the message was not encrypted.
+        /// TLSv1_3); empty when the message was not encrypted. A message refused at SMTP (status: rejected: spam
+        /// or a reject route) is listed but its content was never kept: it returns the listing fields, with html,
+        /// text and raw null and headers empty. Its attachments, redelivery, spam reports and replies are 404;
+        /// DELETE erases it.
         /// </remarks>
         /// <param name="id">Received email id</param>
         /// <param name="parameters">The parameters.</param>
@@ -203,7 +206,10 @@ namespace ZapSMTP
         /// status notification), out_of_office, auto_reply, auto_generated (notifications, null sender) or bulk
         /// (mailing lists). Detected from Auto-Submitted, X-Autoreply, Precedence, List-Id, multipart/report and
         /// well-known subjects; reason names the evidence. tls: the TLS version the sending server used (e.g.
-        /// TLSv1_3); empty when the message was not encrypted.
+        /// TLSv1_3); empty when the message was not encrypted. A message refused at SMTP (status: rejected: spam
+        /// or a reject route) is listed but its content was never kept: it returns the listing fields, with html,
+        /// text and raw null and headers empty. Its attachments, redelivery, spam reports and replies are 404;
+        /// DELETE erases it.
         /// </remarks>
         /// <param name="id">Received email id</param>
         /// <param name="parameters">The parameters.</param>

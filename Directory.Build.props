@@ -7,7 +7,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <Deterministic>true</Deterministic>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>ZapSMTP</Authors>
     <Company>ZapSMTP</Company>
     <Copyright>Copyright (c) ZapSMTP</Copyright>

@@ -67,11 +67,14 @@ namespace ZapSMTP.Tests
             var spam2 = Decode<SpamCheck>("{\"score\":[],\"dkim_signed\":1}");
             Assert.Null(spam2.Score);
             Assert.Null(spam2.DkimSigned);
-            var nested = Decode<Template>("{\"published\":\"yes\",\"variables\":{\"a\":1,\"b\":null,\"c\":{}}}");
+            var nested = Decode<Template>("{\"published\":\"yes\",\"variables\":{\"a\":1,\"c\":{\"x\":[true]}}}");
             Assert.Null(nested.Published);
-            Assert.Equal("1", nested.Variables!["a"]);
-            Assert.False(nested.Variables.ContainsKey("b"));
-            Assert.False(nested.Variables.ContainsKey("c"));
+            Assert.Equal(1, nested.Variables!["a"].GetInt32()); // sample values keep their JSON type
+            Assert.True(nested.Variables["c"].GetProperty("x")[0].GetBoolean());
+            var meta = Decode<Email>("{\"metadata\":{\"a\":1,\"b\":null,\"c\":{}}}");
+            Assert.Equal("1", meta.Metadata!["a"]);
+            Assert.False(meta.Metadata.ContainsKey("b"));
+            Assert.False(meta.Metadata.ContainsKey("c"));
             var hook = Decode<Webhook>("{\"filter\":{\"actions\":[\"a\",5]}}");
             Assert.Equal(new[] { "a", "5" }, hook.Filter!.Actions);
         }
@@ -94,7 +97,7 @@ namespace ZapSMTP.Tests
             Assert.Equal("{\"attempts\":2,\"time\":\"2026-01-02T03:04:05+00:00\"}", json);
             Assert.Equal("{\"dkim_signed\":false,\"score\":1.5}", JsonSerializer.Serialize(new SpamCheck { DkimSigned = false, Score = 1.5 }, ZapJson.Options));
             Assert.Equal("{\"published\":{\"subject\":\"s\"},\"variables\":{\"a\":\"b\"}}",
-                JsonSerializer.Serialize(new Template { Published = new TemplatePublished { Subject = "s" }, Variables = new Dictionary<string, string> { ["a"] = "b" } }, ZapJson.Options));
+                JsonSerializer.Serialize(new Template { Published = new TemplatePublished { Subject = "s" }, Variables = new Dictionary<string, JsonElement> { ["a"] = JsonSerializer.SerializeToElement("b") } }, ZapJson.Options));
         }
 
         [Fact]
