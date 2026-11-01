@@ -80,6 +80,13 @@ namespace ZapSMTP.Tests
         }
 
         [Fact]
+        public void Lists_of_whole_numbers_keep_only_numbers()
+        {
+            var a = Decode<AccountInfo>("{\"smtp\":{\"ports\":[587,\"465\",\"x\",null,{},2525]}}");
+            Assert.Equal(new long[] { 587, 465, 2525 }, a.Smtp!.Ports);
+        }
+
+        [Fact]
         public void An_unknown_key_never_overwrites_a_known_property()
         {
             var e = Decode<Email>("{\"id\":\"e1\",\"Id\":\"x\",\"ID\":\"y\",\"AdditionalProperties\":{\"id\":\"z\"},\"additional_properties\":1}");

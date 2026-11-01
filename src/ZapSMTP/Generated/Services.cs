@@ -3590,6 +3590,81 @@ namespace ZapSMTP
     }
 
     /// <summary>
+    /// The Account API.
+    /// </summary>
+    public class AccountService
+    {
+        private readonly ApiClient _client;
+
+        internal AccountService(ApiClient client)
+        {
+            _client = client;
+        }
+
+        /// <summary>For mocking in tests.</summary>
+        protected AccountService()
+        {
+            _client = null!;
+        }
+
+        /// <summary>
+        /// Retrieve the account.
+        /// </summary>
+        /// <remarks>
+        /// The account the key belongs to: its name, status and sending rate limit, the plan with its limits,
+        /// this month’s sent count and the SMTP relay settings. Requires a full-access key. spend_cap_cents is
+        /// null without a spending cap. For the month’s overage and limit use GET /usage. Plan changes and
+        /// payments are made in the dashboard, never with an API key.
+        /// </remarks>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        public virtual async Task<AccountInfo> GetAsync(RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            (await GetWithResponseAsync(options, cancellationToken).ConfigureAwait(false)).Data;
+
+        /// <summary>
+        /// Retrieve the account.
+        /// </summary>
+        /// <remarks>
+        /// The account the key belongs to: its name, status and sending rate limit, the plan with its limits,
+        /// this month’s sent count and the SMTP relay settings. Requires a full-access key. spend_cap_cents is
+        /// null without a spending cap. For the month’s overage and limit use GET /usage. Plan changes and
+        /// payments are made in the dashboard, never with an API key.
+        /// </remarks>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>The answer, with the response's status and headers.</returns>
+        public virtual Task<ZapResponse<AccountInfo>> GetWithResponseAsync(RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            _client.SendAsync<AccountInfo>(new ApiRequest("GET", "/account"), options, cancellationToken);
+
+        /// <summary>
+        /// Rename the account.
+        /// </summary>
+        /// <remarks>
+        /// Rename the account. Answers the account as GET /account does. Requires a full-access live key; test
+        /// keys get 403 test_key_restricted.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        public virtual async Task<AccountInfo> UpdateAsync(AccountUpdateParams parameters, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            (await UpdateWithResponseAsync(parameters, options, cancellationToken).ConfigureAwait(false)).Data;
+
+        /// <summary>
+        /// Rename the account.
+        /// </summary>
+        /// <remarks>
+        /// Rename the account. Answers the account as GET /account does. Requires a full-access live key; test
+        /// keys get 403 test_key_restricted.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>The answer, with the response's status and headers.</returns>
+        public virtual Task<ZapResponse<AccountInfo>> UpdateWithResponseAsync(AccountUpdateParams parameters, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            _client.SendAsync<AccountInfo>(new ApiRequest("PATCH", "/account") { Body = ApiClient.Required(parameters, nameof(parameters)) }, options, cancellationToken);
+    }
+
+    /// <summary>
     /// The TemplateModules API.
     /// </summary>
     public class TemplateModulesService
@@ -4297,6 +4372,7 @@ namespace ZapSMTP
             DedicatedIps = new DedicatedIpsService(client);
             Logs = new LogsService(client);
             Usage = new UsageService(client);
+            Account = new AccountService(client);
             TemplateModules = new TemplateModulesService(client);
             TemplateAssets = new TemplateAssetsService(client);
             TemplateTimers = new TemplateTimersService(client);
@@ -4373,6 +4449,11 @@ namespace ZapSMTP
         /// The Usage API.
         /// </summary>
         public virtual UsageService Usage { get; }
+
+        /// <summary>
+        /// The Account API.
+        /// </summary>
+        public virtual AccountService Account { get; }
 
         /// <summary>
         /// The TemplateModules API.

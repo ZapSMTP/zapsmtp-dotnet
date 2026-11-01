@@ -198,6 +198,13 @@ namespace ZapSMTP.Internal
                 value = default!;
                 return false;
             }
+            // whole numbers (a port list): an item that is not one is dropped
+            if (typeof(T) == typeof(long))
+            {
+                var n = JsonSerializer.Deserialize<long?>(ref reader, options);
+                value = n is long v ? (T)(object)v : default!;
+                return n is not null;
+            }
             value = JsonSerializer.Deserialize<T>(ref reader, options)!;
             return value is not null;
         }

@@ -12,6 +12,244 @@ using ZapSMTP.Internal;
 namespace ZapSMTP
 {
     /// <summary>
+    /// Returned by Account.GetAsync, Account.UpdateAsync.
+    /// </summary>
+    public sealed partial class AccountInfo : ZapObject
+    {
+        /// <summary>
+        /// The account field.
+        /// </summary>
+        [JsonPropertyName("account")]
+        [JsonConverter(typeof(LenientObjectConverter<AccountProfile>))]
+        public AccountProfile? Account { get; init; }
+
+        /// <summary>
+        /// The object field, when the API sends it.
+        /// </summary>
+        [JsonPropertyName("object")]
+        public string? Object { get; init; }
+
+        /// <summary>
+        /// The plan field.
+        /// </summary>
+        [JsonPropertyName("plan")]
+        [JsonConverter(typeof(LenientObjectConverter<AccountPlan>))]
+        public AccountPlan? Plan { get; init; }
+
+        /// <summary>
+        /// The smtp field.
+        /// </summary>
+        [JsonPropertyName("smtp")]
+        [JsonConverter(typeof(LenientObjectConverter<AccountSmtp>))]
+        public AccountSmtp? Smtp { get; init; }
+
+        /// <summary>
+        /// The usage field.
+        /// </summary>
+        [JsonPropertyName("usage")]
+        [JsonConverter(typeof(LenientObjectConverter<AccountUsage>))]
+        public AccountUsage? Usage { get; init; }
+    }
+
+    /// <summary>
+    /// Part of an API response.
+    /// </summary>
+    public sealed partial class AccountPlan : ZapObject
+    {
+        /// <summary>
+        /// The daily_emails field.
+        /// </summary>
+        [JsonPropertyName("daily_emails")]
+        public long? DailyEmails { get; init; }
+
+        /// <summary>
+        /// The id field.
+        /// </summary>
+        [JsonPropertyName("id")]
+        public string? Id { get; init; }
+
+        /// <summary>
+        /// The included_emails field.
+        /// </summary>
+        [JsonPropertyName("included_emails")]
+        public long? IncludedEmails { get; init; }
+
+        /// <summary>
+        /// The max_domains field.
+        /// </summary>
+        [JsonPropertyName("max_domains")]
+        public long? MaxDomains { get; init; }
+
+        /// <summary>
+        /// The max_smtp_credentials field.
+        /// </summary>
+        [JsonPropertyName("max_smtp_credentials")]
+        public long? MaxSmtpCredentials { get; init; }
+
+        /// <summary>
+        /// The name field.
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string? Name { get; init; }
+
+        /// <summary>
+        /// The overage_cents_per_1000 field.
+        /// </summary>
+        [JsonPropertyName("overage_cents_per_1000")]
+        public long? OverageCentsPer1000 { get; init; }
+
+        /// <summary>
+        /// The price_cents field.
+        /// </summary>
+        [JsonPropertyName("price_cents")]
+        public long? PriceCents { get; init; }
+
+        /// <summary>
+        /// The retention_days field.
+        /// </summary>
+        [JsonPropertyName("retention_days")]
+        public long? RetentionDays { get; init; }
+
+        /// <summary>
+        /// The smtp_relay field, when the API sends it.
+        /// </summary>
+        [JsonPropertyName("smtp_relay")]
+        public bool? SmtpRelay { get; init; }
+
+        /// <summary>
+        /// The tier field.
+        /// </summary>
+        [JsonPropertyName("tier")]
+        public string? Tier { get; init; }
+    }
+
+    /// <summary>
+    /// Part of an API response.
+    /// </summary>
+    public sealed partial class AccountProfile : ZapObject
+    {
+        /// <summary>
+        /// The created_at field.
+        /// </summary>
+        [JsonPropertyName("created_at")]
+        public DateTimeOffset? CreatedAt { get; init; }
+
+        /// <summary>
+        /// The current_period_end field.
+        /// </summary>
+        [JsonPropertyName("current_period_end")]
+        public DateTimeOffset? CurrentPeriodEnd { get; init; }
+
+        /// <summary>
+        /// The dedicated_ips field.
+        /// </summary>
+        [JsonPropertyName("dedicated_ips")]
+        public long? DedicatedIps { get; init; }
+
+        /// <summary>
+        /// The id field.
+        /// </summary>
+        [JsonPropertyName("id")]
+        public string? Id { get; init; }
+
+        /// <summary>
+        /// The monthly_quota field.
+        /// </summary>
+        [JsonPropertyName("monthly_quota")]
+        public long? MonthlyQuota { get; init; }
+
+        /// <summary>
+        /// The name field.
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string? Name { get; init; }
+
+        /// <summary>
+        /// The plan field.
+        /// </summary>
+        [JsonPropertyName("plan")]
+        public string? Plan { get; init; }
+
+        /// <summary>
+        /// The rate_limit_per_sec field.
+        /// </summary>
+        [JsonPropertyName("rate_limit_per_sec")]
+        public double? RateLimitPerSec { get; init; }
+
+        /// <summary>
+        /// The spend_cap_cents field.
+        /// </summary>
+        [JsonPropertyName("spend_cap_cents")]
+        public long? SpendCapCents { get; init; }
+
+        /// <summary>
+        /// The status field.
+        /// </summary>
+        [JsonPropertyName("status")]
+        public string? Status { get; init; }
+
+        /// <summary>
+        /// The subscription_status field.
+        /// </summary>
+        [JsonPropertyName("subscription_status")]
+        public string? SubscriptionStatus { get; init; }
+    }
+
+    /// <summary>
+    /// Part of an API response.
+    /// </summary>
+    public sealed partial class AccountSmtp : ZapObject
+    {
+        /// <summary>
+        /// The host field.
+        /// </summary>
+        [JsonPropertyName("host")]
+        public string? Host { get; init; }
+
+        /// <summary>
+        /// The password field.
+        /// </summary>
+        [JsonPropertyName("password")]
+        public string? Password { get; init; }
+
+        /// <summary>
+        /// The ports field.
+        /// </summary>
+        [JsonPropertyName("ports")]
+        public IReadOnlyList<long>? Ports { get; init; }
+
+        /// <summary>
+        /// The username field.
+        /// </summary>
+        [JsonPropertyName("username")]
+        public string? Username { get; init; }
+    }
+
+    /// <summary>
+    /// Part of an API response.
+    /// </summary>
+    public sealed partial class AccountUsage : ZapObject
+    {
+        /// <summary>
+        /// The month field.
+        /// </summary>
+        [JsonPropertyName("month")]
+        public string? Month { get; init; }
+
+        /// <summary>
+        /// The monthly_quota field.
+        /// </summary>
+        [JsonPropertyName("monthly_quota")]
+        public long? MonthlyQuota { get; init; }
+
+        /// <summary>
+        /// The sent field.
+        /// </summary>
+        [JsonPropertyName("sent")]
+        public long? Sent { get; init; }
+    }
+
+    /// <summary>
     /// Returned by ApiKeys.ListAsync, ApiKeys.UpdateAsync.
     /// </summary>
     public sealed partial class ApiKey : ZapObject

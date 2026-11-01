@@ -96,6 +96,8 @@ namespace ZapSMTP.Tests
                 ["list-logs"] = (zap, c) => ConformanceCall.PageAsync(zap.Logs.ListAsync(c.Params<LogsListParams>()), () => zap.Logs.ListAutoPagingAsync(c.Params<LogsListParams>())),
                 ["get-log"] = (zap, c) => ConformanceCall.OneAsync(zap.Logs.GetAsync(c.Arg(0))),
                 ["usage"] = (zap, c) => ConformanceCall.OneAsync(zap.Usage.GetAsync()),
+                ["get-account"] = (zap, c) => ConformanceCall.OneAsync(zap.Account.GetAsync()),
+                ["update-account"] = (zap, c) => ConformanceCall.OneAsync(zap.Account.UpdateAsync(c.Params<AccountUpdateParams>())),
                 ["update-api-key"] = (zap, c) => ConformanceCall.OneAsync(zap.ApiKeys.UpdateAsync(c.Arg(0), c.Params<ApiKeysUpdateParams>())),
                 ["get-suppression"] = (zap, c) => ConformanceCall.OneAsync(zap.Suppressions.GetAsync(c.Arg(0))),
                 ["add-suppressions"] = (zap, c) => ConformanceCall.OneAsync(zap.Suppressions.CreateBatchAsync(c.Params<SuppressionsCreateBatchParams>())),

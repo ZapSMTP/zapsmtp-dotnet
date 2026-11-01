@@ -1767,6 +1767,18 @@ namespace ZapSMTP
     }
 
     /// <summary>
+    /// Parameters of Account.UpdateAsync.
+    /// </summary>
+    public sealed partial class AccountUpdateParams : ZapParams
+    {
+        /// <summary>
+        /// 1–100 characters. Required.
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string? Name { get; init; }
+    }
+
+    /// <summary>
     /// Parameters of ApiKeys.UpdateAsync.
     /// </summary>
     public sealed partial class ApiKeysUpdateParams : ZapParams
