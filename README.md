@@ -165,11 +165,11 @@ Cancelling the `CancellationToken` you pass throws `OperationCanceledException`,
 
 ## Retries and timeouts
 
-A request that failed on the way (429, 408, 5xx, a lost connection) is tried again twice by default,
+A request that failed on the way (408, 429, 500, 502, 503, 504, a lost connection) is tried again twice by default,
 waiting as the API's `Retry-After` says or backing off exponentially. Only requests that are safe to
 repeat are retried: reads, updates by `PUT`, deletes, and sends, which always carry an
 `Idempotency-Key` (pass your own with `RequestOptions.IdempotencyKey` to make your own retries safe
-too; an empty one is refused, since it would turn deduplication off). The timeout covers each attempt, reading the answer included.
+too; an empty one is refused, since it would turn deduplication off). Other `POST` and `PATCH` requests are retried only on 429; a 429 for a quota or `thread_reply_limit` is never retried, a 409 `idempotency_request_in_progress` is. The timeout covers each attempt, reading the answer included.
 
 ```csharp
 var zap = new ZapSMTPClient("zap_...", new ZapSMTPClientOptions { MaxRetries = 4, Timeout = TimeSpan.FromSeconds(20) });
