@@ -106,7 +106,8 @@ namespace ZapSMTP
     }
 
     /// <summary>
-    /// Narrows email.clicked to some click actions.
+    /// Narrows what an endpoint receives: email.clicked (and email.clicked_unique) to some click actions, every
+    /// event to some domains.
     /// </summary>
     public sealed partial class WebhookFilter : ZapParams
     {
@@ -115,6 +116,12 @@ namespace ZapSMTP
         /// </summary>
         [JsonPropertyName("actions")]
         public IReadOnlyList<string>? Actions { get; init; }
+
+        /// <summary>
+        /// The domains field.
+        /// </summary>
+        [JsonPropertyName("domains")]
+        public IReadOnlyList<string>? Domains { get; init; }
     }
 
     /// <summary>
@@ -1369,8 +1376,8 @@ namespace ZapSMTP
         public string? Url { get; init; }
 
         /// <summary>
-        /// Limits: unknown type → 422 invalid_parameter "unknown event type &lt;x&gt;; allowed: ..." Default: all
-        /// event types.
+        /// Limits: unknown type → 422 invalid_parameter "unknown event type &lt;x&gt;; allowed: ..." Default:
+        /// every type except email.opened_unique and email.clicked_unique.
         /// </summary>
         /// <remarks>See <see cref="WebhookEventType"/> for the values.</remarks>
         [JsonPropertyName("events")]
@@ -1393,8 +1400,9 @@ namespace ZapSMTP
         public bool? Batch { get; init; }
 
         /// <summary>
-        /// Narrows email.clicked to some click actions; other event types are not affected. Empty or absent:
-        /// every click. Default: {"actions": []}.
+        /// Narrows what the endpoint receives: actions narrows email.clicked (and email.clicked_unique) to some
+        /// click actions; domains narrows every event to some domains. Empty or absent: every click, every
+        /// domain. Default: {"actions": [], "domains": []}.
         /// </summary>
         [JsonPropertyName("filter")]
         public WebhookFilter? Filter { get; init; }
@@ -1441,8 +1449,10 @@ namespace ZapSMTP
         public bool? Batch { get; init; }
 
         /// <summary>
-        /// Narrows email.clicked to some click actions; other event types are not affected. Empty or absent:
-        /// every click. Replaces the whole filter; {"actions": []} removes it.
+        /// Narrows what the endpoint receives: actions narrows email.clicked (and email.clicked_unique) to some
+        /// click actions; domains narrows every event to some domains. Empty or absent: every click, every
+        /// domain. A list you leave out keeps its value; an empty list clears it: {"actions": []} lets every
+        /// click through, {"domains": []} every domain.
         /// </summary>
         [JsonPropertyName("filter")]
         public WebhookFilter? Filter { get; init; }

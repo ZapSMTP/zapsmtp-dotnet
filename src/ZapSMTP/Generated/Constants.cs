@@ -319,5 +319,60 @@ namespace ZapSMTP
         /// The value "email.replied".
         /// </summary>
         public const string EmailReplied = "email.replied";
+
+        /// <summary>
+        /// The value "email.opened_unique".
+        /// </summary>
+        public const string EmailOpenedUnique = "email.opened_unique";
+
+        /// <summary>
+        /// The value "email.clicked_unique".
+        /// </summary>
+        public const string EmailClickedUnique = "email.clicked_unique";
+
+        /// <summary>
+        /// The value "email.unsubscribed".
+        /// </summary>
+        public const string EmailUnsubscribed = "email.unsubscribed";
+
+        /// <summary>
+        /// The value "email.forward_failed".
+        /// </summary>
+        public const string EmailForwardFailed = "email.forward_failed";
+
+        /// <summary>
+        /// The value "domain.verified".
+        /// </summary>
+        public const string DomainVerified = "domain.verified";
+
+        /// <summary>
+        /// The value "domain.reputation_changed".
+        /// </summary>
+        public const string DomainReputationChanged = "domain.reputation_changed";
+
+        /// <summary>
+        /// The value "email.scheduled".
+        /// </summary>
+        public const string EmailScheduled = "email.scheduled";
+
+        /// <summary>
+        /// The value "suppression.added".
+        /// </summary>
+        public const string SuppressionAdded = "suppression.added";
+
+        /// <summary>
+        /// The value "suppression.removed".
+        /// </summary>
+        public const string SuppressionRemoved = "suppression.removed";
+
+        /// <summary>
+        /// The value "domain.created".
+        /// </summary>
+        public const string DomainCreated = "domain.created";
+
+        /// <summary>
+        /// The value "domain.deleted".
+        /// </summary>
+        public const string DomainDeleted = "domain.deleted";
     }
 }
