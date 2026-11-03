@@ -2043,6 +2043,151 @@ namespace ZapSMTP
     }
 
     /// <summary>
+    /// Returned by EmailValidations.CreateAsync.
+    /// </summary>
+    public sealed partial class EmailValidation : ZapObject
+    {
+        /// <summary>
+        /// The checks field.
+        /// </summary>
+        [JsonPropertyName("checks")]
+        [JsonConverter(typeof(LenientObjectConverter<EmailValidationChecks>))]
+        public EmailValidationChecks? Checks { get; init; }
+
+        /// <summary>
+        /// The did_you_mean field.
+        /// </summary>
+        [JsonPropertyName("did_you_mean")]
+        public string? DidYouMean { get; init; }
+
+        /// <summary>
+        /// The email field.
+        /// </summary>
+        [JsonPropertyName("email")]
+        public string? Email { get; init; }
+
+        /// <summary>
+        /// The normalized field.
+        /// </summary>
+        [JsonPropertyName("normalized")]
+        public string? Normalized { get; init; }
+
+        /// <summary>
+        /// The object field.
+        /// </summary>
+        [JsonPropertyName("object")]
+        public string? Object { get; init; }
+
+        /// <summary>
+        /// The reason field.
+        /// </summary>
+        [JsonPropertyName("reason")]
+        public string? Reason { get; init; }
+
+        /// <summary>
+        /// The reasons field.
+        /// </summary>
+        [JsonPropertyName("reasons")]
+        public IReadOnlyList<string>? Reasons { get; init; }
+
+        /// <summary>
+        /// The result field.
+        /// </summary>
+        [JsonPropertyName("result")]
+        public string? Result { get; init; }
+
+        /// <summary>
+        /// The score field.
+        /// </summary>
+        [JsonPropertyName("score")]
+        public double? Score { get; init; }
+    }
+
+    /// <summary>
+    /// Part of an API response.
+    /// </summary>
+    public sealed partial class EmailValidationChecks : ZapObject
+    {
+        /// <summary>
+        /// The accept_all field.
+        /// </summary>
+        [JsonPropertyName("accept_all")]
+        public bool? AcceptAll { get; init; }
+
+        /// <summary>
+        /// The disposable field.
+        /// </summary>
+        [JsonPropertyName("disposable")]
+        public bool? Disposable { get; init; }
+
+        /// <summary>
+        /// The domain field.
+        /// </summary>
+        [JsonPropertyName("domain")]
+        public string? Domain { get; init; }
+
+        /// <summary>
+        /// The free field.
+        /// </summary>
+        [JsonPropertyName("free")]
+        public bool? Free { get; init; }
+
+        /// <summary>
+        /// The mailbox field.
+        /// </summary>
+        [JsonPropertyName("mailbox")]
+        public string? Mailbox { get; init; }
+
+        /// <summary>
+        /// The mx field.
+        /// </summary>
+        [JsonPropertyName("mx")]
+        public IReadOnlyList<string>? Mx { get; init; }
+
+        /// <summary>
+        /// The previously_bounced field.
+        /// </summary>
+        [JsonPropertyName("previously_bounced")]
+        public bool? PreviouslyBounced { get; init; }
+
+        /// <summary>
+        /// The role field.
+        /// </summary>
+        [JsonPropertyName("role")]
+        public bool? Role { get; init; }
+
+        /// <summary>
+        /// The suppressed field.
+        /// </summary>
+        [JsonPropertyName("suppressed")]
+        public bool? Suppressed { get; init; }
+
+        /// <summary>
+        /// The syntax field.
+        /// </summary>
+        [JsonPropertyName("syntax")]
+        public bool? Syntax { get; init; }
+    }
+
+    /// <summary>
+    /// Returned by EmailValidations.CreateBatchAsync.
+    /// </summary>
+    public sealed partial class EmailValidationList : ZapObject
+    {
+        /// <summary>
+        /// The data field.
+        /// </summary>
+        [JsonPropertyName("data")]
+        public IReadOnlyList<EmailValidation>? Data { get; init; }
+
+        /// <summary>
+        /// The object field.
+        /// </summary>
+        [JsonPropertyName("object")]
+        public string? Object { get; init; }
+    }
+
+    /// <summary>
     /// Returned by Inbound.ForwardDestinations.ListAsync, Inbound.ForwardDestinations.CreateAsync,
     /// Inbound.ForwardDestinations.ResendConfirmationAsync.
     /// </summary>
@@ -2873,6 +3018,230 @@ namespace ZapSMTP
         /// </summary>
         [JsonPropertyName("suppressed")]
         public long? Suppressed { get; init; }
+    }
+
+    /// <summary>
+    /// Part of an API response.
+    /// </summary>
+    public sealed partial class PlacementAuth : ZapObject
+    {
+        /// <summary>
+        /// The dkim field.
+        /// </summary>
+        [JsonPropertyName("dkim")]
+        public string? Dkim { get; init; }
+
+        /// <summary>
+        /// The dmarc field.
+        /// </summary>
+        [JsonPropertyName("dmarc")]
+        public string? Dmarc { get; init; }
+
+        /// <summary>
+        /// The spf field.
+        /// </summary>
+        [JsonPropertyName("spf")]
+        public string? Spf { get; init; }
+    }
+
+    /// <summary>
+    /// Part of an API response.
+    /// </summary>
+    public sealed partial class PlacementResult : ZapObject
+    {
+        /// <summary>
+        /// The address field.
+        /// </summary>
+        [JsonPropertyName("address")]
+        public string? Address { get; init; }
+
+        /// <summary>
+        /// The auth field.
+        /// </summary>
+        [JsonPropertyName("auth")]
+        [JsonConverter(typeof(LenientObjectConverter<PlacementAuth>))]
+        public PlacementAuth? Auth { get; init; }
+
+        /// <summary>
+        /// The email_id field.
+        /// </summary>
+        [JsonPropertyName("email_id")]
+        public string? EmailId { get; init; }
+
+        /// <summary>
+        /// The folder field.
+        /// </summary>
+        [JsonPropertyName("folder")]
+        public string? Folder { get; init; }
+
+        /// <summary>
+        /// The placement field.
+        /// </summary>
+        [JsonPropertyName("placement")]
+        public string? Placement { get; init; }
+
+        /// <summary>
+        /// The provider field.
+        /// </summary>
+        [JsonPropertyName("provider")]
+        public string? Provider { get; init; }
+
+        /// <summary>
+        /// The received_at field.
+        /// </summary>
+        [JsonPropertyName("received_at")]
+        public DateTimeOffset? ReceivedAt { get; init; }
+    }
+
+    /// <summary>
+    /// Part of an API response.
+    /// </summary>
+    public sealed partial class PlacementSummary : ZapObject
+    {
+        /// <summary>
+        /// The forums field.
+        /// </summary>
+        [JsonPropertyName("forums")]
+        public long? Forums { get; init; }
+
+        /// <summary>
+        /// The inbox field.
+        /// </summary>
+        [JsonPropertyName("inbox")]
+        public long? Inbox { get; init; }
+
+        /// <summary>
+        /// The inbox_rate field.
+        /// </summary>
+        [JsonPropertyName("inbox_rate")]
+        public double? InboxRate { get; init; }
+
+        /// <summary>
+        /// The missing field.
+        /// </summary>
+        [JsonPropertyName("missing")]
+        public long? Missing { get; init; }
+
+        /// <summary>
+        /// The pending field.
+        /// </summary>
+        [JsonPropertyName("pending")]
+        public long? Pending { get; init; }
+
+        /// <summary>
+        /// The primary field.
+        /// </summary>
+        [JsonPropertyName("primary")]
+        public long? Primary { get; init; }
+
+        /// <summary>
+        /// The promotions field.
+        /// </summary>
+        [JsonPropertyName("promotions")]
+        public long? Promotions { get; init; }
+
+        /// <summary>
+        /// The social field.
+        /// </summary>
+        [JsonPropertyName("social")]
+        public long? Social { get; init; }
+
+        /// <summary>
+        /// The spam field.
+        /// </summary>
+        [JsonPropertyName("spam")]
+        public long? Spam { get; init; }
+
+        /// <summary>
+        /// The total field.
+        /// </summary>
+        [JsonPropertyName("total")]
+        public long? Total { get; init; }
+
+        /// <summary>
+        /// The updates field.
+        /// </summary>
+        [JsonPropertyName("updates")]
+        public long? Updates { get; init; }
+    }
+
+    /// <summary>
+    /// Returned by PlacementTests.CreateAsync, PlacementTests.GetAsync, PlacementTests.ListAsync.
+    /// </summary>
+    public sealed partial class PlacementTest : ZapObject
+    {
+        /// <summary>
+        /// The created_at field.
+        /// </summary>
+        [JsonPropertyName("created_at")]
+        public DateTimeOffset? CreatedAt { get; init; }
+
+        /// <summary>
+        /// The ends_at field.
+        /// </summary>
+        [JsonPropertyName("ends_at")]
+        public DateTimeOffset? EndsAt { get; init; }
+
+        /// <summary>
+        /// The finished_at field.
+        /// </summary>
+        [JsonPropertyName("finished_at")]
+        public DateTimeOffset? FinishedAt { get; init; }
+
+        /// <summary>
+        /// The from field.
+        /// </summary>
+        [JsonPropertyName("from")]
+        public string? From { get; init; }
+
+        /// <summary>
+        /// The id field.
+        /// </summary>
+        [JsonPropertyName("id")]
+        public string? Id { get; init; }
+
+        /// <summary>
+        /// The mode field.
+        /// </summary>
+        [JsonPropertyName("mode")]
+        public string? Mode { get; init; }
+
+        /// <summary>
+        /// The object field.
+        /// </summary>
+        [JsonPropertyName("object")]
+        public string? Object { get; init; }
+
+        /// <summary>
+        /// The results field.
+        /// </summary>
+        [JsonPropertyName("results")]
+        public IReadOnlyList<PlacementResult>? Results { get; init; }
+
+        /// <summary>
+        /// The status field.
+        /// </summary>
+        [JsonPropertyName("status")]
+        public string? Status { get; init; }
+
+        /// <summary>
+        /// The subject field.
+        /// </summary>
+        [JsonPropertyName("subject")]
+        public string? Subject { get; init; }
+
+        /// <summary>
+        /// The summary field.
+        /// </summary>
+        [JsonPropertyName("summary")]
+        [JsonConverter(typeof(LenientObjectConverter<PlacementSummary>))]
+        public PlacementSummary? Summary { get; init; }
+
+        /// <summary>
+        /// The token field.
+        /// </summary>
+        [JsonPropertyName("token")]
+        public string? Token { get; init; }
     }
 
     /// <summary>

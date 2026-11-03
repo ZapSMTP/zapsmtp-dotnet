@@ -129,6 +129,11 @@ namespace ZapSMTP.Tests
                 ["list-variables"] = (zap, c) => ConformanceCall.PageAsync(zap.Variables.ListAsync(), () => zap.Variables.ListAutoPagingAsync()),
                 ["put-global-variable"] = (zap, c) => ConformanceCall.OneAsync(zap.Variables.SetGlobalAsync(c.Arg(0), c.Params<VariablesSetGlobalParams>())),
                 ["delete-global-variable"] = (zap, c) => ConformanceCall.OneAsync(zap.Variables.DeleteGlobalAsync(c.Arg(0))),
+                ["validate-email"] = (zap, c) => ConformanceCall.OneAsync(zap.EmailValidations.CreateAsync(c.Params<EmailValidationsCreateParams>())),
+                ["validate-emails"] = (zap, c) => ConformanceCall.OneAsync(zap.EmailValidations.CreateBatchAsync(c.Params<EmailValidationsCreateBatchParams>())),
+                ["create-placement-test"] = (zap, c) => ConformanceCall.OneAsync(zap.PlacementTests.CreateAsync(c.Params<PlacementTestsCreateParams>())),
+                ["get-placement-test"] = (zap, c) => ConformanceCall.OneAsync(zap.PlacementTests.GetAsync(c.Arg(0))),
+                ["list-placement-tests"] = (zap, c) => ConformanceCall.PageAsync(zap.PlacementTests.ListAsync(c.Params<PlacementTestsListParams>()), () => zap.PlacementTests.ListAutoPagingAsync(c.Params<PlacementTestsListParams>())),
             };
     }
 }

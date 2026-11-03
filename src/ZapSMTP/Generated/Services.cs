@@ -4353,6 +4353,238 @@ namespace ZapSMTP
             _client.SendAsync<DeletedObject>(new ApiRequest("DELETE", $"/variables/global/{ApiClient.Segment(key, nameof(key))}"), options, cancellationToken);
     }
 
+    /// <summary>
+    /// The EmailValidations API.
+    /// </summary>
+    public class EmailValidationsService
+    {
+        private readonly ApiClient _client;
+
+        internal EmailValidationsService(ApiClient client)
+        {
+            _client = client;
+        }
+
+        /// <summary>For mocking in tests.</summary>
+        protected EmailValidationsService()
+        {
+            _client = null!;
+        }
+
+        /// <summary>
+        /// Validate an address.
+        /// </summary>
+        /// <remarks>
+        /// Check one address before you send to it: syntax, the domain and its mail servers, throw-away and role
+        /// addresses, typos, your suppression list and earlier hard bounces. Any API key; test keys too (nothing
+        /// is sent or changed). result: deliverable (every check passed), risky (it may arrive, but sending to it
+        /// can hurt your reputation), undeliverable (it will bounce) or unknown (the domain's DNS did not answer:
+        /// try again later). reason is the most serious of reasons: invalid_syntax, reserved_domain,
+        /// domain_not_found, no_mail_server, mailbox_not_found, previously_bounced (hard bounced on ZapSMTP in
+        /// the last 180 days), dns_error, suppressed (on your suppression list), disposable, accept_all,
+        /// role_address; ok when there is none. checks.mailbox is exists, not_found, unknown or not_checked.
+        /// Nothing is ever sent to the address. did_you_mean suggests a likely intended address when the domain
+        /// looks like a typo. Each address counts against your plan's monthly validations (Free 100, Pro 5,000,
+        /// Scale 25,000); over it: 429 monthly_quota_exceeded. Results are not stored.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        public virtual async Task<EmailValidation> CreateAsync(EmailValidationsCreateParams parameters, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            (await CreateWithResponseAsync(parameters, options, cancellationToken).ConfigureAwait(false)).Data;
+
+        /// <summary>
+        /// Validate an address.
+        /// </summary>
+        /// <remarks>
+        /// Check one address before you send to it: syntax, the domain and its mail servers, throw-away and role
+        /// addresses, typos, your suppression list and earlier hard bounces. Any API key; test keys too (nothing
+        /// is sent or changed). result: deliverable (every check passed), risky (it may arrive, but sending to it
+        /// can hurt your reputation), undeliverable (it will bounce) or unknown (the domain's DNS did not answer:
+        /// try again later). reason is the most serious of reasons: invalid_syntax, reserved_domain,
+        /// domain_not_found, no_mail_server, mailbox_not_found, previously_bounced (hard bounced on ZapSMTP in
+        /// the last 180 days), dns_error, suppressed (on your suppression list), disposable, accept_all,
+        /// role_address; ok when there is none. checks.mailbox is exists, not_found, unknown or not_checked.
+        /// Nothing is ever sent to the address. did_you_mean suggests a likely intended address when the domain
+        /// looks like a typo. Each address counts against your plan's monthly validations (Free 100, Pro 5,000,
+        /// Scale 25,000); over it: 429 monthly_quota_exceeded. Results are not stored.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>The answer, with the response's status and headers.</returns>
+        public virtual Task<ZapResponse<EmailValidation>> CreateWithResponseAsync(EmailValidationsCreateParams parameters, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            _client.SendAsync<EmailValidation>(new ApiRequest("POST", "/email-validations") { Body = ApiClient.Required(parameters, nameof(parameters)) }, options, cancellationToken);
+
+        /// <summary>
+        /// Validate up to 100 addresses.
+        /// </summary>
+        /// <remarks>
+        /// Check up to 100 addresses in one call; results come back in the order given. Any API key; test keys
+        /// too (nothing is sent or changed). Each address counts against the plan's monthly validations; a batch
+        /// that would pass the allowance is refused whole.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        public virtual async Task<EmailValidationList> CreateBatchAsync(EmailValidationsCreateBatchParams parameters, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            (await CreateBatchWithResponseAsync(parameters, options, cancellationToken).ConfigureAwait(false)).Data;
+
+        /// <summary>
+        /// Validate up to 100 addresses.
+        /// </summary>
+        /// <remarks>
+        /// Check up to 100 addresses in one call; results come back in the order given. Any API key; test keys
+        /// too (nothing is sent or changed). Each address counts against the plan's monthly validations; a batch
+        /// that would pass the allowance is refused whole.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>The answer, with the response's status and headers.</returns>
+        public virtual Task<ZapResponse<EmailValidationList>> CreateBatchWithResponseAsync(EmailValidationsCreateBatchParams parameters, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            _client.SendAsync<EmailValidationList>(new ApiRequest("POST", "/email-validations/batch") { Body = ApiClient.Required(parameters, nameof(parameters)) }, options, cancellationToken);
+    }
+
+    /// <summary>
+    /// The PlacementTests API.
+    /// </summary>
+    public class PlacementTestsService
+    {
+        private readonly ApiClient _client;
+
+        internal PlacementTestsService(ApiClient client)
+        {
+            _client = client;
+        }
+
+        /// <summary>For mocking in tests.</summary>
+        protected PlacementTestsService()
+        {
+            _client = null!;
+        }
+
+        /// <summary>
+        /// Start a placement test.
+        /// </summary>
+        /// <remarks>
+        /// Start an inbox placement test: see whether a message lands in the inbox, a Gmail tab or spam at the
+        /// big mailbox providers. Requires a full-access live key; test keys get 403 test_key_restricted. With a
+        /// message (from and content, or a template) one copy goes to each seed mailbox through your account,
+        /// like any send (each counts as a sent email; test keys cannot). Without one the test is manual: send
+        /// your message to every address in results from anywhere, with token in the subject or text, within 2
+        /// hours. ZapSMTP then reads each seed mailbox (Gmail, Outlook, Yahoo and others) and records where the
+        /// copy landed: inbox, a Gmail tab (promotions, social, updates, forums), spam, or missing once the test
+        /// ends (15 minutes after a send). auth is the provider's own SPF, DKIM and DMARC verdict. status is
+        /// running until every seed has an answer or the test ends, then done. summary.inbox_rate = inbox (any
+        /// tab) / seeds with an answer. Your plan includes a number of tests a month (Free 1, Pro 10, Scale 50);
+        /// over it: 429 monthly_quota_exceeded.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        public virtual async Task<PlacementTest> CreateAsync(PlacementTestsCreateParams? parameters = null, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            (await CreateWithResponseAsync(parameters, options, cancellationToken).ConfigureAwait(false)).Data;
+
+        /// <summary>
+        /// Start a placement test.
+        /// </summary>
+        /// <remarks>
+        /// Start an inbox placement test: see whether a message lands in the inbox, a Gmail tab or spam at the
+        /// big mailbox providers. Requires a full-access live key; test keys get 403 test_key_restricted. With a
+        /// message (from and content, or a template) one copy goes to each seed mailbox through your account,
+        /// like any send (each counts as a sent email; test keys cannot). Without one the test is manual: send
+        /// your message to every address in results from anywhere, with token in the subject or text, within 2
+        /// hours. ZapSMTP then reads each seed mailbox (Gmail, Outlook, Yahoo and others) and records where the
+        /// copy landed: inbox, a Gmail tab (promotions, social, updates, forums), spam, or missing once the test
+        /// ends (15 minutes after a send). auth is the provider's own SPF, DKIM and DMARC verdict. status is
+        /// running until every seed has an answer or the test ends, then done. summary.inbox_rate = inbox (any
+        /// tab) / seeds with an answer. Your plan includes a number of tests a month (Free 1, Pro 10, Scale 50);
+        /// over it: 429 monthly_quota_exceeded.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>The answer, with the response's status and headers.</returns>
+        public virtual Task<ZapResponse<PlacementTest>> CreateWithResponseAsync(PlacementTestsCreateParams? parameters = null, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            _client.SendAsync<PlacementTest>(new ApiRequest("POST", "/placement-tests") { Body = parameters ?? new PlacementTestsCreateParams() }, options, cancellationToken);
+
+        /// <summary>
+        /// Retrieve a placement test.
+        /// </summary>
+        /// <remarks>
+        /// Retrieve a placement test with where each copy landed. Requires a full-access key. ZapSMTP then reads
+        /// each seed mailbox (Gmail, Outlook, Yahoo and others) and records where the copy landed: inbox, a Gmail
+        /// tab (promotions, social, updates, forums), spam, or missing once the test ends (15 minutes after a
+        /// send). auth is the provider's own SPF, DKIM and DMARC verdict. status is running until every seed has
+        /// an answer or the test ends, then done. summary.inbox_rate = inbox (any tab) / seeds with an answer.
+        /// </remarks>
+        /// <param name="id">The test id.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        public virtual async Task<PlacementTest> GetAsync(string id, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            (await GetWithResponseAsync(id, options, cancellationToken).ConfigureAwait(false)).Data;
+
+        /// <summary>
+        /// Retrieve a placement test.
+        /// </summary>
+        /// <remarks>
+        /// Retrieve a placement test with where each copy landed. Requires a full-access key. ZapSMTP then reads
+        /// each seed mailbox (Gmail, Outlook, Yahoo and others) and records where the copy landed: inbox, a Gmail
+        /// tab (promotions, social, updates, forums), spam, or missing once the test ends (15 minutes after a
+        /// send). auth is the provider's own SPF, DKIM and DMARC verdict. status is running until every seed has
+        /// an answer or the test ends, then done. summary.inbox_rate = inbox (any tab) / seeds with an answer.
+        /// </remarks>
+        /// <param name="id">The test id.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>The answer, with the response's status and headers.</returns>
+        public virtual Task<ZapResponse<PlacementTest>> GetWithResponseAsync(string id, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            _client.SendAsync<PlacementTest>(new ApiRequest("GET", $"/placement-tests/{ApiClient.Segment(id, nameof(id))}"), options, cancellationToken);
+
+        /// <summary>
+        /// List placement tests.
+        /// </summary>
+        /// <remarks>
+        /// List placement tests, newest first, with cursor pagination. Requires a full-access key. Pass
+        /// next_cursor as after for the next page.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>One page; see <see cref="ListAutoPagingAsync"/> for every item of every page.</returns>
+        public virtual async Task<Page<PlacementTest>> ListAsync(PlacementTestsListParams? parameters = null, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            (await ListWithResponseAsync(parameters, options, cancellationToken).ConfigureAwait(false)).Data;
+
+        /// <summary>
+        /// List placement tests.
+        /// </summary>
+        /// <remarks>
+        /// List placement tests, newest first, with cursor pagination. Requires a full-access key. Pass
+        /// next_cursor as after for the next page.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>One page, with the response's status and headers.</returns>
+        public virtual Task<ZapResponse<Page<PlacementTest>>> ListWithResponseAsync(PlacementTestsListParams? parameters = null, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            _client.SendPageAsync<PlacementTest>(new ApiRequest("GET", "/placement-tests") { Query = parameters?.ToQuery() }, Paging.Cursor, options, cancellationToken);
+
+        /// <summary>
+        /// List placement tests.
+        /// </summary>
+        /// <remarks>
+        /// List placement tests, newest first, with cursor pagination. Requires a full-access key. Pass
+        /// next_cursor as after for the next page.
+        /// </remarks>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="options">Per-request options: idempotency key, headers, timeout, retries.</param>
+        /// <param name="cancellationToken">Cancels the request.</param>
+        /// <returns>Every item of every page, fetched page by page as the enumeration goes.</returns>
+        public virtual IAsyncEnumerable<PlacementTest> ListAutoPagingAsync(PlacementTestsListParams? parameters = null, RequestOptions? options = null, CancellationToken cancellationToken = default) =>
+            _client.AutoPageAsync<PlacementTest>(new ApiRequest("GET", "/placement-tests") { Query = parameters?.ToQuery() }, Paging.Cursor, options, cancellationToken);
+    }
+
     public partial class ZapSMTPClient
     {
         private ZapSMTPClient(ApiClient client)
@@ -4378,6 +4610,8 @@ namespace ZapSMTP
             TemplateTimers = new TemplateTimersService(client);
             Actions = new ActionsService(client);
             Variables = new VariablesService(client);
+            EmailValidations = new EmailValidationsService(client);
+            PlacementTests = new PlacementTestsService(client);
         }
 
         /// <summary>
@@ -4479,5 +4713,15 @@ namespace ZapSMTP
         /// The Variables API.
         /// </summary>
         public virtual VariablesService Variables { get; }
+
+        /// <summary>
+        /// The EmailValidations API.
+        /// </summary>
+        public virtual EmailValidationsService EmailValidations { get; }
+
+        /// <summary>
+        /// The PlacementTests API.
+        /// </summary>
+        public virtual PlacementTestsService PlacementTests { get; }
     }
 }

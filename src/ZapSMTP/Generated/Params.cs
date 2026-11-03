@@ -2046,4 +2046,109 @@ namespace ZapSMTP
         [JsonPropertyName("description")]
         public string? Description { get; init; }
     }
+
+    /// <summary>
+    /// Parameters of EmailValidations.CreateAsync.
+    /// </summary>
+    public sealed partial class EmailValidationsCreateParams : ZapParams
+    {
+        /// <summary>
+        /// The address to check. Required.
+        /// </summary>
+        [JsonPropertyName("email")]
+        public string? Email { get; init; }
+    }
+
+    /// <summary>
+    /// Parameters of EmailValidations.CreateBatchAsync.
+    /// </summary>
+    public sealed partial class EmailValidationsCreateBatchParams : ZapParams
+    {
+        /// <summary>
+        /// 1–100 addresses, each at most 320 characters. Required.
+        /// </summary>
+        [JsonPropertyName("emails")]
+        public IReadOnlyList<string>? Emails { get; init; }
+    }
+
+    /// <summary>
+    /// Parameters of PlacementTests.CreateAsync.
+    /// </summary>
+    public sealed partial class PlacementTestsCreateParams : ZapParams
+    {
+        /// <summary>
+        /// Sender on one of your verified domains. Leave out (with template) for a manual test.
+        /// </summary>
+        [JsonPropertyName("from")]
+        public string? From { get; init; }
+
+        /// <summary>
+        /// As in Send an email.
+        /// </summary>
+        [JsonPropertyName("subject")]
+        public string? Subject { get; init; }
+
+        /// <summary>
+        /// As in Send an email.
+        /// </summary>
+        [JsonPropertyName("html")]
+        public string? Html { get; init; }
+
+        /// <summary>
+        /// As in Send an email.
+        /// </summary>
+        [JsonPropertyName("text")]
+        public string? Text { get; init; }
+
+        /// <summary>
+        /// A stored template and its variables, as in Send an email.
+        /// </summary>
+        [JsonPropertyName("template")]
+        public TemplateRef? Template { get; init; }
+
+        /// <summary>
+        /// Extra headers, as in Send an email.
+        /// </summary>
+        [JsonPropertyName("headers")]
+        public IReadOnlyDictionary<string, string>? Headers { get; init; }
+
+        /// <summary>
+        /// As in Send an email.
+        /// </summary>
+        [JsonPropertyName("tags")]
+        public IReadOnlyList<Tag>? Tags { get; init; }
+
+        /// <summary>
+        /// As in Send an email.
+        /// </summary>
+        [JsonPropertyName("stream")]
+        public string? Stream { get; init; }
+    }
+
+    /// <summary>
+    /// Parameters of PlacementTests.ListAsync.
+    /// </summary>
+    public sealed partial class PlacementTestsListParams : ZapParams
+    {
+        /// <summary>
+        /// 1-100. Limits: 422 invalid_parameter otherwise. Default: 20.
+        /// </summary>
+        [JsonPropertyName("limit")]
+        public int? Limit { get; init; }
+
+        /// <summary>
+        /// A test id from next_cursor. Limits: 422 invalid_parameter otherwise.
+        /// </summary>
+        [JsonPropertyName("after")]
+        public string? After { get; init; }
+
+        internal QueryString ToQuery()
+        {
+            var q = new QueryString();
+            q.Add("limit", Limit);
+            q.Add("after", After);
+            q.AddExtra(AdditionalProperties);
+            return q;
+        }
+    }
 }
